@@ -13,25 +13,9 @@ class SoYouStartService {
     /** @var \Ovh\Api */
     protected $ovh_api;
 
-    public function __construct()
+    public function __construct(string $application_key, string $application_secret, string $endpoint, ?string $consumer_key)
     {
-        //
-    }
-
-    /**
-     * Initialize OVH API class.
-     *
-     * All applications MUST call this function before issuing any function calls.
-     * Failure to do so may result on errors.
-     */
-    public function setOvhConfiguration(
-        $application_key = config('ovh.application_key'),
-        $application_secret = config('ovh.application_secret'),
-        $consumer_key = config('ovh.consumer_key'),
-        $endpoint = 'soyoustart-ca'
-    ) {
         $this->ovh_api = new Api($application_key, $application_secret, $endpoint, $consumer_key);
-        return $this;
     }
 
     /**
