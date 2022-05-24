@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\SoYouStart;
+namespace App\Services\OvhCloud;
 
 use Ovh\Api;
 
@@ -8,7 +8,7 @@ use Ovh\Api;
  *
  * It is recommended to extend the functionality outside of this service for specific use cases to keep the implementation clean.
  */
-class SoYouStartService {
+class OvhCloudService {
 
     /** @var \Ovh\Api */
     protected $ovh_api;
