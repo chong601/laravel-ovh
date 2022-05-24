@@ -41,10 +41,10 @@ class ListAllServersCommand extends Command
     {
         /** @var \Ovh\Api */
         $ovh_api = App::makeWith(SoYouStartService::class, [
-            'application_key' => config('ovh.application_key'),
-            'application_secret' => config('ovh.application_secret'),
+            'application_key' => config('soyoustart.application_key'),
+            'application_secret' => config('soyoustart.application_secret'),
             'endpoint' => 'soyoustart-ca',
-            'consumer_key' => config('ovh.consumer_key')
+            'consumer_key' => config('soyoustart.consumer_key')
         ]);
 
         print(json_encode($ovh_api->get('/dedicated/server','')));
