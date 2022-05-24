@@ -13,7 +13,7 @@ class GetVirtualMacCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ovh:getvirtualmac {service_name}';
+    protected $signature = 'soyoustart:getvirtualmac {service_name}';
 
     /**
      * The console command description.

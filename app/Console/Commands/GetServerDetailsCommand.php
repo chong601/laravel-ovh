@@ -13,7 +13,7 @@ class GetServerDetailsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ovh:getserverdetails {service_name}';
+    protected $signature = 'soyoustart:getserverdetails {service_name}';
 
     /**
      * The console command description.

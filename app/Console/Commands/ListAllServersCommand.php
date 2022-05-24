@@ -13,7 +13,7 @@ class ListAllServersCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ovh:listallservers';
+    protected $signature = 'soyoustart:listallservers';
 
     /**
      * The console command description.

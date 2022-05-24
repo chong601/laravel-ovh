@@ -13,7 +13,7 @@ class GetInstallationTemplateDetailCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ovh:getinstallationtemplatedetail {installation_template}';
+    protected $signature = 'soyoustart:getinstallationtemplatedetail {installation_template}';
 
     /**
      * The console command description.
