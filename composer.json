@@ -7,11 +7,11 @@
     "require": {
         "php": "^7.3|^8.0",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^7.4",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "ovh/ovh": "^3.0"
+        "ovh/ovh": "master"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -58,6 +58,12 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/chong601/php-ovh"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }
