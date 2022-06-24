@@ -24,6 +24,9 @@ class SoYouStartService {
     public function get($route, $parameters) {
         // TODO: Exception handling
         // What is content?
+        if ($parameters) {
+            return $this->ovh_api->get($route, $parameters);
+        }
         return $this->ovh_api->get($route);
     }
 
@@ -33,6 +36,9 @@ class SoYouStartService {
     public function post($route, $parameters) {
         // TODO: Exception handling
         // What is content?
+        if ($parameters) {
+            return $this->ovh_api->post($route, $parameters);
+        }
         return $this->ovh_api->post($route);
     }
 
@@ -42,6 +48,9 @@ class SoYouStartService {
     public function delete($route, $parameters) {
         // TODO: Exception handling
         // What is content?
+        if ($parameters) {
+            return $this->ovh_api->delete($route, $parameters);
+        }
         return $this->ovh_api->delete($route);
     }
 
@@ -51,6 +60,9 @@ class SoYouStartService {
     public function put($route, $parameters) {
         // TODO: Exception handling
         // What is content?
+        if ($parameters) {
+            return $this->ovh_api->put($route, $parameters);
+        }
         return $this->ovh_api->put($route, $parameters);
     }
 }
