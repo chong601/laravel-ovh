@@ -50,8 +50,6 @@ class SoYouStartListVirtualMacAndIpByServiceName extends Command
 
         $serviceName = $this->argument('service_name');
 
-        $ipMacMap = [];
-
         // Get all IPs assigned to the server
         $ipBlocks = $ovh_api->get(sprintf('/dedicated/server/%s/ips', $serviceName), []);
 
