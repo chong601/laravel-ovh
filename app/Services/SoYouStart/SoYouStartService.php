@@ -65,4 +65,23 @@ class SoYouStartService {
         }
         return $this->ovh_api->put($route, $parameters);
     }
+
+    /**
+     * Get all available installation template that SoYouStart offers
+     *
+     * @return array An array of installation templates
+     */
+    public function getAllAvailableInstallationTemplates() : array {
+        return $this->ovh_api->get('/dedicated/installationTemplate');
+    }
+
+    /**
+     * Get detailed information on the provided installation template name
+     *
+     * @param string $installationTemplate Installation template name to query the detail
+     * @return array Installation template detail
+     */
+    public function getInstallationTemplateDetail(string $installationTemplate) {
+        return $this->ovh_api->get(sprintf('/dedicated/installationTemplate/%s', $installationTemplate));
+    }
 }
