@@ -6,21 +6,21 @@ use App\Services\SoYouStart\SoYouStartService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 
-class GetInstallationTemplateCommand extends Command
+class SoYouStartGetInstallationTemplateDetailCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'soyoustart:getinstallationtemplate';
+    protected $signature = 'soyoustart:getinstallationtemplatedetail {installation_template}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Get all available installation templates available';
+    protected $description = 'Fetch installation template details based on the installation template name';
 
     /**
      * Create a new command instance.
@@ -39,7 +39,7 @@ class GetInstallationTemplateCommand extends Command
      */
     public function handle()
     {
-        /** @var \Ovh\Api */
+        /** @var \App\Services\SoYouStart\SoYouStartService */
         $ovh_api = App::makeWith(SoYouStartService::class, [
             'application_key' => config('soyoustart.application_key'),
             'application_secret' => config('soyoustart.application_secret'),
@@ -47,7 +47,9 @@ class GetInstallationTemplateCommand extends Command
             'consumer_key' => config('soyoustart.consumer_key')
         ]);
 
-        $result = $ovh_api->get('/dedicated/installationTemplate', '');
+        $installationTemplate = $this->argument('installation_template');
+
+        $result = $ovh_api->getInstallationTemplateDetail($installationTemplate);
 
         print(json_encode($result, JSON_PRETTY_PRINT));
         return 0;
