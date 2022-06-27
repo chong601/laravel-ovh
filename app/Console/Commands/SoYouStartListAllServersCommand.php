@@ -2,25 +2,25 @@
 
 namespace App\Console\Commands;
 
-use App\Services\SoYouStart\SoYouStartService;
 use Illuminate\Console\Command;
+use App\Services\SoYouStart\SoYouStartService;
 use Illuminate\Support\Facades\App;
 
-class GetVirtualMacCommand extends Command
+class SoYouStartListAllServersCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'soyoustart:getvirtualmac {service_name}';
+    protected $signature = 'soyoustart:listallservers';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'List all virtual MAC addresses assigned to this server';
+    protected $description = 'Lists all available servers';
 
     /**
      * Create a new command instance.
@@ -47,9 +47,7 @@ class GetVirtualMacCommand extends Command
             'consumer_key' => config('soyoustart.consumer_key')
         ]);
 
-        $serviceName = $this->argument('service_name');
-
-        print(json_encode($ovh_api->get(sprintf('/dedicated/server/%s/virtualMac', $serviceName),''), JSON_PRETTY_PRINT));
+        print(json_encode($ovh_api->get('/dedicated/server','')));
         return 0;
     }
 }

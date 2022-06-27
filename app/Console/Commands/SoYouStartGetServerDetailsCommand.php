@@ -2,25 +2,25 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Services\SoYouStart\SoYouStartService;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 
-class ListAllServersCommand extends Command
+class SoYouStartGetServerDetailsCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'soyoustart:listallservers';
+    protected $signature = 'soyoustart:getserverdetails {service_name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Lists all available servers';
+    protected $description = 'Get server details based on the service name provided';
 
     /**
      * Create a new command instance.
@@ -47,7 +47,9 @@ class ListAllServersCommand extends Command
             'consumer_key' => config('soyoustart.consumer_key')
         ]);
 
-        print(json_encode($ovh_api->get('/dedicated/server','')));
+        $serviceName = $this->argument('service_name');
+
+        print(json_encode($ovh_api->get(sprintf('/dedicated/server/%s', $serviceName),''), JSON_PRETTY_PRINT));
         return 0;
     }
 }

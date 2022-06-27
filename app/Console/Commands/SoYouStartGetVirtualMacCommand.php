@@ -6,21 +6,21 @@ use App\Services\SoYouStart\SoYouStartService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
 
-class GetServerDetailsCommand extends Command
+class SoYouStartGetVirtualMacCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'soyoustart:getserverdetails {service_name}';
+    protected $signature = 'soyoustart:getvirtualmac {service_name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Get server details based on the service name provided';
+    protected $description = 'List all virtual MAC addresses assigned to this server';
 
     /**
      * Create a new command instance.
@@ -49,7 +49,7 @@ class GetServerDetailsCommand extends Command
 
         $serviceName = $this->argument('service_name');
 
-        print(json_encode($ovh_api->get(sprintf('/dedicated/server/%s', $serviceName),''), JSON_PRETTY_PRINT));
+        print(json_encode($ovh_api->get(sprintf('/dedicated/server/%s/virtualMac', $serviceName),''), JSON_PRETTY_PRINT));
         return 0;
     }
 }
