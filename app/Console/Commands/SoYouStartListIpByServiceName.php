@@ -49,11 +49,9 @@ class SoYouStartListIpByServiceName extends Command
 
         $serviceName = $this->argument('service_name');
 
-        $result = $ovh_api->get('/ip', [
-            'routedTo.serviceName' => $serviceName
-        ]);
+        $result = $ovh_api->getDedicatedServerIpAddresses($serviceName);
 
-        print(json_encode($result, JSON_PRETTY_PRINT));
+        print(json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         return 0;
     }
 }

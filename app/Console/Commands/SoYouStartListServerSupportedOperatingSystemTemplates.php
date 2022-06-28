@@ -51,20 +51,20 @@ class SoYouStartListServerSupportedOperatingSystemTemplates extends Command
 
         // Get all supported OS templates for the server
         // This also includes personal templates
-        $osTemplates = $ovh_api->get(sprintf('/dedicated/server/%s/install/compatibleTemplates', $serviceName), []);
+        $osTemplates = $ovh_api->getDedicatedServerCompatibleInstallationTemplates($serviceName);
 
         $osTemplateList = [];
         foreach ($osTemplates['ovh'] as $osTemplates) {
-            $osTemplateDetails = $ovh_api->get(sprintf('/dedicated/installationTemplate/%s', $osTemplates), []);
-            $osTemplatePartitionSchemes = $ovh_api->get(sprintf('/dedicated/server/%s/install/compatibleTemplatePartitionSchemes', $serviceName), ['templateName' => $osTemplates]);
+            $osTemplateDetails = $ovh_api->getDedicatedInstallationTemplateDetail($osTemplates);
+            $osTemplatePartitionSchemes = $ovh_api->getDedicatedServerCompatibleInstallationTemplatePartitionSchemes($serviceName, $osTemplates);
             $osTemplatePartitionSchemesList = [];
             foreach ($osTemplatePartitionSchemes as $osTemplatePartitionScheme) {
                 // Get partition details
-                $osTemplatePartitionMountPoints = $ovh_api->get(sprintf('/dedicated/installationTemplate/%s/partitionScheme/%s/partition', $osTemplates, $osTemplatePartitionScheme), []);
+                $osTemplatePartitionMountPoints = $ovh_api->getDedicatedInstallationTemplatePartitionSchemeMountpoints($osTemplates, $osTemplatePartitionScheme);
                 $osTemplatePartitionMountPointsList = [];
                 // Get mount point details
                 foreach ($osTemplatePartitionMountPoints as $osTemplatePartitionMountPoint) {
-                    $osTemplatePartitionMountPointDetail = $ovh_api->get(sprintf('/dedicated/installationTemplate/%s/partitionScheme/%s/partition/%s', $osTemplates, $osTemplatePartitionScheme, urlencode($osTemplatePartitionMountPoint)), []);
+                    $osTemplatePartitionMountPointDetail = $ovh_api->getDedicatedInstallationTemplatePartitionSchemeMountpointDetails($osTemplates, $osTemplatePartitionScheme, $osTemplatePartitionMountPoint);
                     $osTemplatePartitionMountPointsList[] = $osTemplatePartitionMountPointDetail;
                 }
                 $osTemplatePartitionSchemesList[$osTemplatePartitionScheme] = $osTemplatePartitionMountPointsList;

@@ -23,16 +23,6 @@ class SoYouStartListAllReverseDnsEntries extends Command
     protected $description = 'List all reverse DNS entries of the server';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return int
@@ -56,6 +46,7 @@ class SoYouStartListAllReverseDnsEntries extends Command
             $ipsWithReverse = $ovh_api->get((sprintf('/ip/%s/reverse', urlencode(strval($ipBlock)))), []);
             foreach ($ipsWithReverse as $ipWithReverse) {
                 $reverseDetail = $ovh_api->get(sprintf('/ip/%s/reverse/%s', urlencode(strval($ipBlock)), urlencode(strval($ipWithReverse))), []);
+                ksort($reverseDetail);
                 $reverseList[strval($ipWithReverse)] = $reverseDetail;
             }
         }

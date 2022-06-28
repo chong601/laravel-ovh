@@ -49,20 +49,20 @@ class SoYouStartListAllUserCreatedTemplates extends Command
 
         // Get all supported OS templates for the server
         // This also includes personal templates
-        $userTemplates = $ovh_api->get('/me/installationTemplate', []);
+        $userTemplates = $ovh_api->getAllUserDefinedInstallationTemplates();
 
         $userTemplateList = [];
         foreach ($userTemplates as $userTemplate) {
-            $userTemplateDetails = $ovh_api->get(sprintf('/me/installationTemplate/%s', $userTemplate), []);
-            $userTemplatePartitionSchemes = $ovh_api->get(sprintf('/me/installationTemplate/%s/partitionScheme', $userTemplate), []);
+            $userTemplateDetails = $ovh_api->getUserDefinedInstallationTemplateDetails($userTemplate);
+            $userTemplatePartitionSchemes = $ovh_api->getUserDefinedInstallationTemplatePartitionSchemes($userTemplate);
             $userTemplatePartitionSchemesList = [];
             foreach ($userTemplatePartitionSchemes as $userTemplatePartitionScheme) {
                 // Get partition details
-                $userTemplatePartitionMountPoints = $ovh_api->get(sprintf('/me/installationTemplate/%s/partitionScheme/%s/partition', $userTemplate, $userTemplatePartitionScheme), []);
+                $userTemplatePartitionMountPoints = $ovh_api->getUserDefinedInstallationTemplatePartitionMountpoints($userTemplate, $userTemplatePartitionScheme);
                 $userTemplatePartitionMountPointsList = [];
                 // Get mount point details
                 foreach ($userTemplatePartitionMountPoints as $userTemplatePartitionMountPoint) {
-                    $userTemplatePartitionMountPointDetail = $ovh_api->get(sprintf('/me/installationTemplate/%s/partitionScheme/%s/partition/%s', $userTemplate, $userTemplatePartitionScheme, urlencode($userTemplatePartitionMountPoint)), []);
+                    $userTemplatePartitionMountPointDetail = $ovh_api->getUserDefinedInstallationTemplatePartitionMountpointDetails($userTemplate, $userTemplatePartitionScheme, $userTemplatePartitionMountPoint);
                     $userTemplatePartitionMountPointsList[] = $userTemplatePartitionMountPointDetail;
                 }
                 $userTemplatePartitionSchemesList[$userTemplatePartitionScheme] = $userTemplatePartitionMountPointsList;

@@ -39,7 +39,7 @@ class SoYouStartListAllServersCommand extends Command
      */
     public function handle()
     {
-        /** @var \Ovh\Api */
+        /** @var \App\Services\SoYouStart\SoYouStartService */
         $ovh_api = App::makeWith(SoYouStartService::class, [
             'application_key' => config('soyoustart.application_key'),
             'application_secret' => config('soyoustart.application_secret'),
@@ -47,7 +47,7 @@ class SoYouStartListAllServersCommand extends Command
             'consumer_key' => config('soyoustart.consumer_key')
         ]);
 
-        print(json_encode($ovh_api->get('/dedicated/server','')));
+        print(json_encode($ovh_api->getDedicatedServers()));
         return 0;
     }
 }

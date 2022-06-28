@@ -50,10 +50,10 @@ class SoYouStartGetServerIpDetail extends Command
         $serviceName = $this->argument('service_name');
 
         // Get all IPs assigned to the server
-        $ipBlocks = $ovh_api->get(sprintf('/dedicated/server/%s/ips', $serviceName), []);
+        $ipBlocks = $ovh_api->getDedicatedServerIpAddresses($serviceName);
 
         foreach ($ipBlocks as $ipBlock) {
-            $ipBlockDetail = $ovh_api->get(sprintf('/ip/%s', urlencode(strval($ipBlock))), []);
+            $ipBlockDetail = $ovh_api->getIpBlockDetail($ipBlock);
             $ipBlockList[strval($ipBlock)] = $ipBlockDetail;
         }
 

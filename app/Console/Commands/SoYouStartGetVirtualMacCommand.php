@@ -39,7 +39,7 @@ class SoYouStartGetVirtualMacCommand extends Command
      */
     public function handle()
     {
-        /** @var \Ovh\Api */
+        /** @var \App\Services\SoYouStart\SoYouStartService */
         $ovh_api = App::makeWith(SoYouStartService::class, [
             'application_key' => config('soyoustart.application_key'),
             'application_secret' => config('soyoustart.application_secret'),
@@ -49,7 +49,7 @@ class SoYouStartGetVirtualMacCommand extends Command
 
         $serviceName = $this->argument('service_name');
 
-        print(json_encode($ovh_api->get(sprintf('/dedicated/server/%s/virtualMac', $serviceName),''), JSON_PRETTY_PRINT));
+        print(json_encode($ovh_api->getDedicatedServerVirtualMacAddresses($serviceName), JSON_PRETTY_PRINT));
         return 0;
     }
 }

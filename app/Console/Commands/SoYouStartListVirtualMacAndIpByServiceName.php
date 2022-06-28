@@ -51,12 +51,7 @@ class SoYouStartListVirtualMacAndIpByServiceName extends Command
         $serviceName = $this->argument('service_name');
 
         // Get all IPs assigned to the server
-        $ipBlocks = $ovh_api->get(sprintf('/dedicated/server/%s/ips', $serviceName), []);
-
-        // Get all virtual MACs for this server
-        $virtualMacs = $ovh_api->get(sprintf('/dedicated/server/%s/virtualMac', $serviceName), []);
-        // Sort it because OVH API never gives MAC addresses somewhat sorted (every run has different MAC arrangements)
-        sort($virtualMacs);
+        $ipBlocks = $ovh_api->getDedicatedServerIpAddresses($serviceName);
 
         foreach ($ipBlocks as $ipBlock) {
             // Skip v6 because it's always too massive anyway :kek:
@@ -69,17 +64,16 @@ class SoYouStartListVirtualMacAndIpByServiceName extends Command
                 $ipMacMap[$ip] = new \stdClass;
             }
         }
-        // print_r($ipMacMap);
-        // // Get all available virtual MAC assigned to the server
-        $virtualMacs = $ovh_api->get(sprintf('/dedicated/server/%s/virtualMac', $serviceName), []);
+
+        // Get all available virtual MAC assigned to the server
+        $virtualMacs = $ovh_api->getDedicatedServerVirtualMacAddresses($serviceName);
+        sort($virtualMacs);
 
         foreach ($virtualMacs as $virtualMac) {
             // Get the IP of this MAC address
-
-            $virtualMacIps = $ovh_api->get(sprintf('/dedicated/server/%s/virtualMac/%s/virtualAddress', $serviceName, $virtualMac), []);
+            $virtualMacIps = $ovh_api->getDedicatedServerVirtualMacIpAddresses($serviceName, $virtualMac);
             foreach ($virtualMacIps as $virtualMacIp) {
-                $ipAddressDetail = $ovh_api->get(sprintf('/dedicated/server/%s/virtualMac/%s/virtualAddress/%s', $serviceName, $virtualMac, $virtualMacIp), []);
-                // print_r([$virtualMac, $virtualMacIp, $ipAddressDetail]);
+                $ipAddressDetail = $ovh_api->getDedicatedServerVirtualMacIpAddressDetail($serviceName, $virtualMac, $virtualMacIp);
             }
             $ipMacMap[$virtualMacIp] = ['mac' => $virtualMac, 'virtualMachineName' => $ipAddressDetail['virtualMachineName']];
         }
@@ -98,7 +92,7 @@ class SoYouStartListVirtualMacAndIpByServiceName extends Command
         $block = IPv4Block::create($ipBlock);
         $ips = [];
         foreach ($block as $ip) {
-            $ips[] = (string)$ip;
+            $ips[] = strval($ip);
         }
         return $ips;
     }

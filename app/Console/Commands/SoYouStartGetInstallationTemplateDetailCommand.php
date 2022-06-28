@@ -49,7 +49,7 @@ class SoYouStartGetInstallationTemplateDetailCommand extends Command
 
         $installationTemplate = $this->argument('installation_template');
 
-        $result = $ovh_api->getInstallationTemplateDetail($installationTemplate);
+        $result = $ovh_api->getDedicatedInstallationTemplateDetail($installationTemplate);
 
         print(json_encode($result, JSON_PRETTY_PRINT));
         return 0;

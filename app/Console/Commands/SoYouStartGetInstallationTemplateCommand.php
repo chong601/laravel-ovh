@@ -47,7 +47,7 @@ class SoYouStartGetInstallationTemplateCommand extends Command
             'consumer_key' => config('soyoustart.consumer_key')
         ]);
 
-        $result = $ovh_api->getAllAvailableInstallationTemplates();
+        $result = $ovh_api->getAllDedicatedInstallationTemplates();
 
         print(json_encode($result, JSON_PRETTY_PRINT));
         return 0;
