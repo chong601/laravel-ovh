@@ -24,16 +24,6 @@ class OvhCloudListAllOrders extends Command
     protected $description = 'List all orders with optional start and end date\nStart date and end date are optional.';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      *
      * @return int
@@ -59,7 +49,7 @@ class OvhCloudListAllOrders extends Command
             $arg_array['date.to'] = $args['end-date'];
         }
 
-        if (count($arg_array) == 0) {
+        if (empty($arg_array)) {
             print(json_encode($ovh_api->get('/me/order'), JSON_PRETTY_PRINT));
         } else {
             print(json_encode($ovh_api->get('/me/order', $arg_array), JSON_PRETTY_PRINT));
