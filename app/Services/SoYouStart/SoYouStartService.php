@@ -255,6 +255,18 @@ class SoYouStartService {
     public function getUserDefinedInstallationTemplatePartitionMountpointDetails($userInstallationTemplate, $partitionScheme, $mountpoint) : array {
         return $this->ovh_api->get(sprintf('/me/installationTemplate/%s/partitionScheme/%s/partition/%s', $userInstallationTemplate, $partitionScheme, urlencode($mountpoint)));
     }
+
+    /**
+     * Create a new user-defined template based on the provided dedicated installation template name
+     *
+     * @param string $userTemplateName Name of the new user-defined template name
+     * @param string $dedicatedTemplateName Name of the dedicated installation template it will be based on
+     * @return void
+     */
+    public function postCreateNewUserDefinedTemplate($userTemplateName, $dedicatedTemplateName) {
+        $this->ovh_api->post('/me/installationTemplate', ['name' => $userTemplateName, 'defaultLanguage' => 'en', 'baseTemplateName' => $dedicatedTemplateName]);
+    }
+
     /**
      * Create a new partition scheme for a user-defined template
      *
