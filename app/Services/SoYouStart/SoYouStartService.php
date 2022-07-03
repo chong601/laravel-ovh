@@ -255,4 +255,16 @@ class SoYouStartService {
     public function getUserDefinedInstallationTemplatePartitionMountpointDetails($userInstallationTemplate, $partitionScheme, $mountpoint) : array {
         return $this->ovh_api->get(sprintf('/me/installationTemplate/%s/partitionScheme/%s/partition/%s', $userInstallationTemplate, $partitionScheme, urlencode($mountpoint)));
     }
+    /**
+     * Create a new partition scheme for a user-defined template
+     *
+     * @param string $userTemplateName Name of the user-defined template
+     * @param string $partitionSchemeName Name of the partition scheme
+     * @param int $priority Priority of this partition (higher value = higher priority)
+     * @return void
+     */
+    public function postCreateNewUserDefinedTemplatePartitionScheme($userTemplateName, $partitionSchemeName, $priority) {
+        $this->ovh_api->post(sprintf('/me/installationTemplate/%s/partitionScheme', $userTemplateName), ['name' => $partitionSchemeName, 'priority' => $priority]);
+    }
+
 }
