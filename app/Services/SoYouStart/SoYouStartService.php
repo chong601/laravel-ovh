@@ -15,9 +15,22 @@ class SoYouStartService {
     /** @var \Ovh\Api */
     protected $ovh_api;
 
+    protected $dedicatedServer;
+
+    protected $dedicatedInstallationTemplate;
+
+    protected $ip;
+
+    protected $me;
+
     public function __construct(string $application_key, string $application_secret, string $endpoint, ?string $consumer_key)
     {
         $this->ovh_api = new Api($application_key, $application_secret, $endpoint, $consumer_key);
+
+        $this->dedicatedServer = new SoYouStartDedicatedServer($this->ovh_api);
+        $this->dedicatedInstallationTemplate = new SoYouStartDedicatedInstallationTemplate($this->ovh_api);
+        $this->ip = new SoYouStartIp($this->ovh_api);
+        $this->me = new SoYouStartMe($this->ovh_api);
     }
 
     /**
@@ -279,4 +292,24 @@ class SoYouStartService {
         $this->ovh_api->post(sprintf('/me/installationTemplate/%s/partitionScheme', $userTemplateName), ['name' => $partitionSchemeName, 'priority' => $priority]);
     }
 
+    /**
+     * Update the partition scheme name or priority
+     * Note: This function does not require both name and priority be passed in
+     *
+     * @param string $userTemplateName Name of the user-defined template
+     * @param string $partitionSchemeName Name of the partition scheme name
+     * @param string $newPartitionSchemeName New partition scheme name to update. Defaults to null.
+     * @param string $newPriority New priority for the partition scheme name. Defaults to null
+     * @return void
+     */
+    public function putUpdateUserDefinedTemplatePartitionScheme($userTemplateName, $partitionSchemeName, $newPartitionSchemeName = null, $newPriority = null) {
+        if($newPartitionSchemeName) {
+            $parameterToUpdate['name'] = $newPartitionSchemeName;
+        }
+        if($newPriority) {
+            $parameterToUpdate['priority'] = $newPriority;
+        }
+
+        $this->ovh_api->put(sprintf('/me/installationTemplate/%s/partitionScheme/%s', $userTemplateName, $partitionSchemeName), $parameterToUpdate);
+    }
 }
