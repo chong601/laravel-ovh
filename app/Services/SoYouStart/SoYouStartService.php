@@ -293,6 +293,32 @@ class SoYouStartService {
     }
 
     /**
+     * Create a new mount point for a partition scheme on a user-defined template
+     *
+     * @param string $userTemplateName User template name
+     * @param string $partitionSchemeName Partition scheme name
+     * @param string $filesystem Filesystem for the partition
+     * @param string $mountpoint Mount point for the partition
+     * @param int $raid RAID level for the partition
+     * @param int $size Size of the partition in MiB
+     * @param int $step Which partition number it will be placed
+     * @param string $type Type of partition
+     * @param string $volumeName Name of the logical volume (only when type is "lv")
+     * @return void
+     */
+    public function postCreateNewUserDefinedTemplatePartitionSchemeMountpoint($userTemplateName, $partitionSchemeName, $filesystem, $mountpoint, $raid, $size, $step, $type, $volumeName = null) {
+        $this->ovh_api->post(sprintf('/me/installationTemplate/%s/partitionScheme/%s/partition', $userTemplateName, $partitionSchemeName), [
+            'filesystem' => $filesystem,
+            'mountpoint' => $mountpoint,
+            'raid' => $raid,
+            'size' => $size,
+            'step' => $step,
+            'type' => $type,
+            'volumeName' => $volumeName
+        ]);
+    }
+
+    /**
      * Update the partition scheme name or priority
      * Note: This function does not require both name and priority be passed in
      *
