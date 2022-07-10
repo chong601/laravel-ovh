@@ -13,7 +13,7 @@ class SoYouStartGetUserCreatedTemplateDetailByName extends Command
      *
      * @var string
      */
-    protected $signature = 'soyoustart:getusertemplatedetail {user_template_name : User template name}';
+    protected $signature = 'soyoustart:me:installationtemplate:detail {user_template_name : User template name}';
 
     /**
      * The console command description.
