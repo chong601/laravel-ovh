@@ -27,10 +27,6 @@ class SoYouStartService {
     {
         $this->ovh_api = new Api($application_key, $application_secret, $endpoint, $consumer_key);
 
-        $this->dedicatedServer = new SoYouStartDedicatedServer($this->ovh_api);
-        $this->dedicatedInstallationTemplate = new SoYouStartDedicatedInstallationTemplate($this->ovh_api);
-        $this->ip = new SoYouStartIp($this->ovh_api);
-        $this->me = new SoYouStartMe($this->ovh_api);
     }
 
     /**
