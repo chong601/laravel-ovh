@@ -336,6 +336,18 @@ class SoYouStartService {
     }
 
     /**
+     * Delete a new mount point for a partition scheme on a user-defined template
+     *
+     * @param string $userTemplateName User template name
+     * @param string $partitionSchemeName Partition scheme name
+     * @param string $mountpoint Mount point for the partition
+     * @return void
+     */
+    public function deleteUserDefinedTemplatePartitionSchemeMountpoint($userTemplateName, $partitionSchemeName, $mountpoint) {
+        $this->ovh_api->delete(sprintf('/me/installationTemplate/%s/partitionScheme/%s/partition/%s', $userTemplateName, $partitionSchemeName, urlencode($mountpoint)));
+    }
+
+    /**
      * Update the partition scheme name or priority
      * Note: This function does not require both name and priority be passed in
      *
