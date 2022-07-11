@@ -242,6 +242,17 @@ class SoYouStartService {
     }
 
     /**
+     * Get user-defined installation template partition scheme details
+     *
+     * @param string $userInstallationTemplate Name of the installation template
+     * @param string $partitionScheme Name of the partition scheme
+     * @return array The partition scheme details
+     */
+    public function getUserDefinedInstallationTemplatePartitionSchemeDetail($userInstallationTemplate, $partitionScheme) : array {
+        return $this->ovh_api->get(sprintf('/me/installationTemplate/%s/partitionScheme/%s', $userInstallationTemplate, $partitionScheme));
+    }
+
+    /**
      * Get user-defined installation template defined partition mount points in the partition scheme provided
      *
      * @param string $userInstallationTemplate Name of the installation template
