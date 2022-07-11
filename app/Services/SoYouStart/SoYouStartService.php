@@ -277,6 +277,16 @@ class SoYouStartService {
     }
 
     /**
+     * Delete a user-defined template
+     *
+     * @param string $userTemplateName Name of the user-defined template to remove
+     * @return void
+     */
+    public function deleteUserDefinedTemplate($userTemplateName) {
+        $this->ovh_api->delete(sprintf('/me/installationTemplate/%s', $userTemplateName));
+    }
+
+    /**
      * Create a new partition scheme for a user-defined template
      *
      * @param string $userTemplateName Name of the user-defined template
