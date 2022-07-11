@@ -42,6 +42,11 @@ class SoYouStartCreateNewTemporaryInstallationTemplate extends Command
         $partitionSchemeName = Uuid::uuid4()->toString();
         $dedicatedTemplateName = 'ubuntu2004-server_64';
 
+        $partitions = [
+            ['filesystem' => 'xfs', 'mountpoint' => '/boot', 'raid' => 1, 'size' => 10240, 'step' => 0, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/', 'raid' => 1, 'size' => 0, 'step' => 17, 'type' => 'primary', 'volumeName' => ''],
+        ];
+
         // Create a temporary user template based on a dedicate template
         $ovh_api->postCreateNewUserDefinedTemplate($userTemplateName, $dedicatedTemplateName);
 
@@ -49,10 +54,20 @@ class SoYouStartCreateNewTemporaryInstallationTemplate extends Command
         $ovh_api->postCreateNewUserDefinedTemplatePartitionScheme($userTemplateName, $partitionSchemeName, 1);
 
         // Create a list of filesystems to use
-        $ovh_api->postCreateNewUserDefinedTemplatePartitionSchemeMountpoint($userTemplateName, $partitionSchemeName,
-        'xfs', '/boot', 1, 10240, 0, 'primary', '');
-        $ovh_api->postCreateNewUserDefinedTemplatePartitionSchemeMountpoint($userTemplateName, $partitionSchemeName,
-        'xfs', '/', 1, 0, 1, 'primary', '');
+        foreach ($partitions as $partition) {
+            $ovh_api->postCreateNewUserDefinedTemplatePartitionSchemeMountpoint(
+                $userTemplateName,
+                $partitionSchemeName,
+                $partition['filesystem'],
+                $partition['mountpoint'],
+                $partition['raid'],
+                $partition['size'],
+                $partition['step'],
+                $partition['type'],
+                $partition['volumeName']
+            );
+            $this->info(sprintf('Created %s mountpoint on %s user template %s partition scheme.', $partition['mountpoint'], $userTemplateName, $partitionSchemeName));
+        }
 
         return 0;
     }
