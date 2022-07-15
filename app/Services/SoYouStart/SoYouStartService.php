@@ -30,54 +30,6 @@ class SoYouStartService {
     }
 
     /**
-     * Performs a GET request to OVH API based on route and parameters
-     */
-    public function get($route, $parameters) {
-        // TODO: Exception handling
-        // What is content?
-        if ($parameters) {
-            return $this->ovh_api->get($route, $parameters);
-        }
-        return $this->ovh_api->get($route);
-    }
-
-    /**
-     * Performs a POST request to OVH API based on route and parameters
-     */
-    public function post($route, $parameters) {
-        // TODO: Exception handling
-        // What is content?
-        if ($parameters) {
-            return $this->ovh_api->post($route, $parameters);
-        }
-        return $this->ovh_api->post($route);
-    }
-
-    /**
-     * Performs a DELETE request to OVH API based on route and parameters
-     */
-    public function delete($route, $parameters) {
-        // TODO: Exception handling
-        // What is content?
-        if ($parameters) {
-            return $this->ovh_api->delete($route, $parameters);
-        }
-        return $this->ovh_api->delete($route);
-    }
-
-    /**
-     * Performs a PUT request to OVH API based on route and parameters
-     */
-    public function put($route, $parameters) {
-        // TODO: Exception handling
-        // What is content?
-        if ($parameters) {
-            return $this->ovh_api->put($route, $parameters);
-        }
-        return $this->ovh_api->put($route, $parameters);
-    }
-
-    /**
      * Get all available installation template that SoYouStart offers
      *
      * @return array An array of installation templates
