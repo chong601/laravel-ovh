@@ -13,7 +13,7 @@ class SoYouStartListAllUserCreatedTemplates extends Command
      *
      * @var string
      */
-    protected $signature = 'soyoustart:listallusercreatedtemplates';
+    protected $signature = 'soyoustart:me:installationtemplate:list';
 
     /**
      * The console command description.
@@ -21,16 +21,6 @@ class SoYouStartListAllUserCreatedTemplates extends Command
      * @var string
      */
     protected $description = 'List all user-created templates';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Execute the console command.
@@ -51,29 +41,7 @@ class SoYouStartListAllUserCreatedTemplates extends Command
         // This also includes personal templates
         $userTemplates = $ovh_api->getAllUserDefinedInstallationTemplates();
 
-        $userTemplateList = [];
-        foreach ($userTemplates as $userTemplate) {
-            $userTemplateDetails = $ovh_api->getUserDefinedInstallationTemplateDetails($userTemplate);
-            $userTemplatePartitionSchemes = $ovh_api->getUserDefinedInstallationTemplatePartitionSchemes($userTemplate);
-            $userTemplatePartitionSchemesList = [];
-            foreach ($userTemplatePartitionSchemes as $userTemplatePartitionScheme) {
-                // Get partition details
-                $userTemplatePartitionMountPoints = $ovh_api->getUserDefinedInstallationTemplatePartitionMountpoints($userTemplate, $userTemplatePartitionScheme);
-                $userTemplatePartitionMountPointsList = [];
-                // Get mount point details
-                foreach ($userTemplatePartitionMountPoints as $userTemplatePartitionMountPoint) {
-                    $userTemplatePartitionMountPointDetail = $ovh_api->getUserDefinedInstallationTemplatePartitionMountpointDetails($userTemplate, $userTemplatePartitionScheme, $userTemplatePartitionMountPoint);
-                    $userTemplatePartitionMountPointsList[] = $userTemplatePartitionMountPointDetail;
-                }
-                $userTemplatePartitionSchemesList[$userTemplatePartitionScheme] = $userTemplatePartitionMountPointsList;
-            }
-            $userTemplateList[$userTemplate] = [
-                'template_details' => $userTemplateDetails,
-                'partition_schemes' => $userTemplatePartitionSchemesList
-            ];
-        }
-
-        print(json_encode($userTemplateList, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        print(json_encode($userTemplates, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         return 0;
     }
