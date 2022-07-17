@@ -120,9 +120,19 @@ class SoYouStartCreateNewUserTemplatePartitionSchemeMountpoint extends Command
         ], true));
 
         try {
-            $ovh_api->postCreateNewUserDefinedTemplatePartitionSchemeMountpoint($userTemplateName, $partitionSchemeName,
-        $filesystem, $mountpoint, $raid, $size, $step, $type, $volumeName);
-        $this->info(sprintf('Mountpoint "%s" created successfully!', $mountpoint));
+            $ovh_api->postCreateNewUserDefinedTemplatePartitionSchemeMountpoint(
+                $userTemplateName,
+                $partitionSchemeName,
+                $filesystem,
+                $mountpoint,
+                $raid,
+                $size,
+                $step,
+                $type,
+                $volumeName
+            );
+
+            $this->info(sprintf('Mountpoint "%s" created successfully!', $mountpoint));
         } catch (Exception $e) {
             $this->error($e->getMessage());
             return 1;
