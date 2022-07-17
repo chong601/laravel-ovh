@@ -44,6 +44,22 @@ class SoYouStartCreateNewTemporaryInstallationTemplate extends Command
 
         $partitions = [
             ['filesystem' => 'xfs', 'mountpoint' => '/boot', 'raid' => 1, 'size' => 10240, 'step' => 0, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test1', 'raid' => 1, 'size' => 10240, 'step' => 1, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test2', 'raid' => 1, 'size' => 10240, 'step' => 2, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test3', 'raid' => 1, 'size' => 10240, 'step' => 3, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test4', 'raid' => 1, 'size' => 10240, 'step' => 4, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test5', 'raid' => 1, 'size' => 10240, 'step' => 5, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test6', 'raid' => 1, 'size' => 10240, 'step' => 6, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test7', 'raid' => 1, 'size' => 10240, 'step' => 7, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test8', 'raid' => 1, 'size' => 10240, 'step' => 8, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test9', 'raid' => 1, 'size' => 10240, 'step' => 9, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test10', 'raid' => 1, 'size' => 10240, 'step' => 10, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test11', 'raid' => 1, 'size' => 10240, 'step' => 11, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test12', 'raid' => 1, 'size' => 10240, 'step' => 12, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test13', 'raid' => 1, 'size' => 10240, 'step' => 13, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test14', 'raid' => 1, 'size' => 10240, 'step' => 14, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test15', 'raid' => 1, 'size' => 10240, 'step' => 15, 'type' => 'primary', 'volumeName' => ''],
+            ['filesystem' => 'xfs', 'mountpoint' => '/test16', 'raid' => 1, 'size' => 10240, 'step' => 16, 'type' => 'primary', 'volumeName' => ''],
             ['filesystem' => 'xfs', 'mountpoint' => '/', 'raid' => 1, 'size' => 0, 'step' => 17, 'type' => 'primary', 'volumeName' => ''],
         ];
 
