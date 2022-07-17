@@ -13,7 +13,7 @@ class OvhCloudListAllDedicatedServers extends Command
      *
      * @var string
      */
-    protected $signature = 'ovhcloud:listalldedicatedservers';
+    protected $signature = 'ovhcloud:dedicatedservers:list';
 
     /**
      * The console command description.
