@@ -60,11 +60,7 @@ class SoYouStartUpdateUserDefinedTemplatePartitionSchemeMountpoint extends Comma
         $raid = $this->option('raid');
         $size = $this->option('size');
         $type = $this->option('type');
-        if($type === 'lv') {
-            $volumeName = $this->option('volumeName');
-        } else {
-            $volumeName = null;
-        }
+        $volumeName = $this->option('volumeName');
 
         if ($mountpoint !== 'swap' && $mountpoint[0] !== '/') {
             $this->error('Mountpoint must start with a / except for "swap"!');
@@ -89,14 +85,57 @@ class SoYouStartUpdateUserDefinedTemplatePartitionSchemeMountpoint extends Comma
             return 1;
         }
 
-        $finalSize = [
-            'unit' => 'MB',
-            'value' => $size
-        ];
+        // Bail out if the updated filesystem matches any existing filesystems
+        if (is_string($updatedMountpoint) && in_array($updatedMountpoint, $mountPoints)) {
+            $this->error(sprintf('Cannot update mountpoint "%s" to already existing mountpoint "%s"!', $mountpoint, $updatedMountpoint));
+            return 1;
+        }
 
         // Get supported filesystems
         // We would like to lock out filesystems that is not supported by this template
-        $supportedFilesystems = $ovh_api->getUserDefinedInstallationTemplateDetails($userTemplateName);
+        if (is_string($filesystem)) {
+            $supportedFilesystems = $ovh_api->getUserDefinedInstallationTemplateDetails($userTemplateName);
+            if (!in_array($filesystem, $supportedFilesystems['filesystems'])) {
+                $this->error(sprintf('Filesystem "%s" is not valid!, Valid filesystems are %s.', $filesystem, implode(', ', $supportedFilesystems['filesystems'])));
+                return 1;
+            }
+        }
+
+        // Assemble the updated data
+        $templatePartitions = [];
+
+        if (isset($filesystem)) {
+            $templatePartitions['filesystem'] = $filesystem;
+        }
+
+        if (isset($updatedMountpoint)) {
+            $templatePartitions['mountpoint'] = $updatedMountpoint;
+        }
+
+        if (isset($order) && is_numeric($order)) {
+            $templatePartitions['order'] = $order;
+        }
+
+        if (isset($raid) && is_numeric($raid)) {
+            $templatePartitions['raid'] = intval($raid);
+        }
+
+        if (isset($size) && is_numeric($size)) {
+            $finalSize = [
+                'unit' => 'MB',
+                'value' => intval($size)
+            ];
+
+            $templatePartitions['size'] = $finalSize;
+        }
+
+        if (isset($type)) {
+            $templatePartitions['type'] = $type;
+        }
+
+        if (isset($volumeName)) {
+            $templatePartitions['volumeName'] = $volumeName;
+        }
 
         $this->info(json_encode([
             'arguments' => [
@@ -119,35 +158,27 @@ class SoYouStartUpdateUserDefinedTemplatePartitionSchemeMountpoint extends Comma
             'templateName' => $userTemplateName,
             'schemeName' => $partitionSchemeName,
             'mountpoint' => $mountpoint,
-            'templatePartitions' => [
-                'filesystem' => $filesystem,
-                'updatedMountpoint' => $updatedMountpoint,
-                'order' => $order,
-                'raid' => $raid,
-                'size' => $finalSize,
-                'type' => $type,
-                'volumeName' => $volumeName
-            ]
+            'templatePartitions' => $templatePartitions
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
-        // try {
-        //     $ovh_api->putUpdateUserDefinedTemplatePartitionSchemeMountpoint(
-        //         $userTemplateName,
-        //         $partitionSchemeName,
-        //         $filesystem,
-        //         $mountpoint,
-        //         $raid,
-        //         $size,
-        //         $order,
-        //         $type,
-        //         $volumeName
-        //     );
+        if (empty($templatePartitions)) {
+            $this->error('Nothing to update!');
+            return 1;
+        }
 
-        //     $this->info(sprintf('Mountpoint "%s" created successfully!', $mountpoint));
-        // } catch (Exception $e) {
-        //     $this->error($e->getMessage());
-        //     return 1;
-        // }
+        try {
+            $ovh_api->putUpdateUserDefinedTemplatePartitionSchemeMountpoint(
+                $userTemplateName,
+                $partitionSchemeName,
+                $mountpoint,
+                $templatePartitions
+            );
+
+            $this->info(sprintf('Mountpoint "%s" updated successfully!', $mountpoint));
+        } catch (Exception $e) {
+            $this->error($e->getMessage());
+            return 1;
+        }
         return 0;
     }
 }

@@ -372,7 +372,7 @@ class SoYouStartService {
      * @return void
      */
     public function putUpdateUserDefinedTemplatePartitionSchemeMountpoint($userTemplateName, $partitionSchemeName, $mountpoint, $templatePartitions) {
-        $this->ovh_api->put(sprintf('/me/installationTemplate/%s/partitionScheme/%s/partition/%s', $userTemplateName, $partitionSchemeName, urlencode($mountpoint)), ['templatePartitions' => $templatePartitions]);
+        $this->ovh_api->put(sprintf('/me/installationTemplate/%s/partitionScheme/%s/partition/%s', $userTemplateName, $partitionSchemeName, urlencode($mountpoint)), $templatePartitions);
     }
 
     /**
