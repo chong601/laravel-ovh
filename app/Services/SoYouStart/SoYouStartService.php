@@ -252,53 +252,14 @@ class SoYouStartService {
     /**
      * Update user template data
      *
+     * EXPERIMENTAL.
+     *
      * @param string $templateName The template name to update
-     * @param string $customHostname The hostname to be configured
-     * @param string $postInstallationScriptLink TBD
-     * @param string $postInstallationScriptReturn TBD
-     * @param string $sshKeyName The SSH key name to use
-     * @param bool $useDistributrionKernel Whether to use distribution-provided kernel or OVH-provided kernel
-     * @param string $defaultLanguage The default language to use to set up the OS
-     * @param string $updatedTemplateName The new template name
+     * @param array $templateData An array of changes to apply
      * @return void
      */
-    public function putUpdateUserDefinedTemplate($templateName, $customHostname = null, $postInstallationScriptLink = null, $postInstallationScriptReturn = null, $sshKeyName = null, $useDistributrionKernel = null, $defaultLanguage = null, $updatedTemplateName = null) {
-        $customization = [];
-        $content = [];
-
-        if (isset($customHostname)) {
-            $customization['customHostname'] = $customHostname;
-        }
-
-        if (isset($postInstallationScriptLink)) {
-            $customization['postInstallationScriptLink'] = $postInstallationScriptLink;
-        }
-
-        if (isset($postInstallationScriptReturn)) {
-            $customization['postInstallationScriptReturn'] = $postInstallationScriptReturn;
-        }
-
-        if (isset($sshKeyName)) {
-            $customization['sshKeyName'] = $sshKeyName;
-        }
-
-        if (isset($useDistributrionKernel)) {
-            $customization['useDistributionKernel'] = $useDistributrionKernel;
-        }
-
-        if ($customization) {
-            $content['customization'] = $customization;
-        }
-
-        if (isset($defaultLanguage)) {
-            $content['defaultLanguage'] = $defaultLanguage;
-        }
-
-        if (isset($updatedTemplateName)) {
-            $content['templateName'] = $updatedTemplateName;
-        }
-
-        $this->ovh_api->put(sprintf('/me/installationTemplate/%s', $templateName), $content);
+    public function putUpdateUserDefinedTemplate($templateName, $templateData) {
+        $this->ovh_api->put(sprintf('/me/installationTemplate/%s', $templateName), $templateData);
     }
 
     /**

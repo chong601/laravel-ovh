@@ -28,7 +28,7 @@ class SoYouStartUpdateUserTemplate extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Update user template details';
 
     /**
      * Execute the console command.
@@ -55,19 +55,55 @@ class SoYouStartUpdateUserTemplate extends Command
         $defaultLanguage = $this->option('defaultLanguage');
         $updatedTemplateName = $this->option('updatedTemplateName');
 
-        print(json_encode([$templateName, $customHostname, $postInstallationScriptLink, $postInstallationScriptReturn, $sshKeyName, $useDistributrionKernel, $defaultLanguage, $updatedTemplateName]));
+        // Good luck future me on figuring out how the fuck should I do validation.
+        $templateData = [];
+        $customization = [];
 
-        // $ovh_api->putUpdateUserDefinedTemplate(
-        //     $templateName,
-        //     $customHostname,
-        //     $postInstallationScriptLink,
-        //     $postInstallationScriptReturn,
-        //     $sshKeyName,
-        //     $useDistributrionKernel,
-        //     $defaultLanguage,
-        //     $updatedTemplateName
-        // );
+        if (isset($customHostname)) {
+            $customization['customHostname'] = $customHostname;
+        }
 
+        if (isset($postInstallationScriptLink)) {
+            $customization['postInstallationScriptLink'] = $postInstallationScriptLink;
+        }
+
+        if (isset($postInstallationScriptReturn)) {
+            $customization['postInstallationScriptReturn'] = $postInstallationScriptReturn;
+        }
+
+        if (isset($sshKeyName)) {
+            $customization['sshKeyName'] = $sshKeyName;
+        }
+
+        if (isset($useDistributrionKernel)) {
+            $customization['useDistributionKernel'] = $useDistributrionKernel;
+        }
+
+        if ($customization) {
+            $templateData['customization'] = $customization;
+        }
+
+        if (isset($defaultLanguage)) {
+            $templateData['defaultLanguage'] = $defaultLanguage;
+        }
+
+        if (isset($updatedTemplateName)) {
+            $templateData['templateName'] = $updatedTemplateName;
+        }
+
+        $this->info(json_encode([$templateName, $customHostname, $postInstallationScriptLink, $postInstallationScriptReturn, $sshKeyName, $useDistributrionKernel, $defaultLanguage, $updatedTemplateName]));
+
+        $this->info(json_encode($templateData));
+
+        if (empty($templateData)) {
+            $this->error('Nothing to update!');
+            return 1;
+        }
+
+        $ovh_api->putUpdateUserDefinedTemplate(
+            $templateName,
+            $templateData
+        );
 
         return 0;
     }
