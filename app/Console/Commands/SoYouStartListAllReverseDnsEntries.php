@@ -40,12 +40,12 @@ class SoYouStartListAllReverseDnsEntries extends Command
         $serviceName = $this->argument('service_name');
 
         // Get all IPs assigned to the server
-        $ipBlocks = $ovh_api->get(sprintf('/dedicated/server/%s/ips', $serviceName), []);
+        $ipBlocks = $ovh_api->getDedicatedServerIpAddresses($serviceName);
         foreach ($ipBlocks as $ipBlock) {
             // Get the IPs with reverse DNS configured
-            $ipsWithReverse = $ovh_api->get((sprintf('/ip/%s/reverse', urlencode(strval($ipBlock)))), []);
+            $ipsWithReverse = $ovh_api->getIpAddressReverseList($ipBlock);
             foreach ($ipsWithReverse as $ipWithReverse) {
-                $reverseDetail = $ovh_api->get(sprintf('/ip/%s/reverse/%s', urlencode(strval($ipBlock)), urlencode(strval($ipWithReverse))), []);
+                $reverseDetail = $ovh_api->getIpAddressReverseDetail($ipBlock, $ipWithReverse);
                 ksort($reverseDetail);
                 $reverseList[strval($ipWithReverse)] = $reverseDetail;
             }

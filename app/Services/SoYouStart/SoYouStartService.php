@@ -165,6 +165,27 @@ class SoYouStartService {
     }
 
     /**
+     * Get a list of IP addresses with reverse DNS configured
+     *
+     * @param string|IPv4Block|IPv6Block $ipBlock The IP address block to query
+     * @return array List of reverse DNS available on this block
+     */
+    public function getIpAddressReverseList($ipBlock) {
+        return $this->ovh_api->get(sprintf('/ip/%s/reverse', urlencode(strval($ipBlock))));
+    }
+
+    /**
+     * Get reverse DNS details
+     *
+     * @param string|IPv4Block|IPv6Block $ipBlock The IP address block to query
+     * @param string $ipAddress The IP address to query
+     * @return array IP reverse DNS detail
+     */
+    public function getIpAddressReverseDetail($ipBlock, $ipAddress) {
+        return $this->ovh_api->get(sprintf('/ip/%s/reverse/%s', urlencode(strval($ipBlock)), urlencode(strval($ipAddress))));
+    }
+
+    /**
      * Get all user-defined templates
      *
      * @return array List of user-defined templates
