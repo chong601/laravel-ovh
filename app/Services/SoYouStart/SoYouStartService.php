@@ -2,7 +2,6 @@
 namespace App\Services\SoYouStart;
 
 use App\Services\SoYouStart\Me\SoYouStartMe;
-use Exception;
 use Ovh\Api;
 use PhpIP\IPv4Block;
 use PhpIP\IPv6Block;
@@ -11,6 +10,18 @@ use PhpIP\IPv6Block;
  * A class that provice base functionality to interact with OVH API.
  *
  * It is recommended to extend the functionality outside of this service for specific use cases to keep the implementation clean.
+ *
+ * @property Auth $auth
+ * @property DedicatedInstallationTemplate $dedicatedInstallationTemplate
+ * @property DedicatedServer $dedicatedServer
+ * @property Ip $ip
+ * @property Licnese $license
+ * @property SoYouStartMe $me
+ * @property NewAccount $newAccount
+ * @property Order $order
+ * @property Price $price
+ * @property Support $support
+ * @property VeeamCloudConnect $veeamCloudConnect
  */
 class SoYouStartService {
 
