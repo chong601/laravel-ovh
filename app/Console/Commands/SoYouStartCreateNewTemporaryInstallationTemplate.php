@@ -64,14 +64,14 @@ class SoYouStartCreateNewTemporaryInstallationTemplate extends Command
         ];
 
         // Create a temporary user template based on a dedicate template
-        $ovh_api->postCreateNewUserDefinedTemplate($userTemplateName, $dedicatedTemplateName);
+        $ovh_api->me->installationTemplate->create($userTemplateName, 'en', $dedicatedTemplateName);
 
         // Create a partition scheme name
-        $ovh_api->postCreateNewUserDefinedTemplatePartitionScheme($userTemplateName, $partitionSchemeName, 1);
+        $ovh_api->me->installationTemplate->partitionScheme->create($userTemplateName, $partitionSchemeName, 1);
 
         // Create a list of filesystems to use
         foreach ($partitions as $partition) {
-            $ovh_api->postCreateNewUserDefinedTemplatePartitionSchemeMountpoint(
+            $ovh_api->me->installationTemplate->partitionScheme->partition->create(
                 $userTemplateName,
                 $partitionSchemeName,
                 $partition['filesystem'],

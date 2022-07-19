@@ -41,7 +41,7 @@ class SoYouStartUpdateUserTemplatePartitionSchemeName extends Command
         $partitionSchemeName = $this->argument('partition_scheme_name');
         $newPartitionSchemeName = $this->argument('new_partition_scheme_name');
 
-        $ovh_api->putUpdateUserDefinedTemplatePartitionScheme($userTemplateName, $partitionSchemeName, $newPartitionSchemeName, null);
+        $ovh_api->me->installationTemplate->partitionScheme->update($userTemplateName, $partitionSchemeName, $newPartitionSchemeName, null);
         $this->info("Successfully changed $partitionSchemeName to $newPartitionSchemeName for $userTemplateName");
         return 0;
     }

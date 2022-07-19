@@ -46,7 +46,7 @@ class SoYouStartCreateNewUserTemplatePartitionScheme extends Command
             return 1;
         }
 
-        $ovh_api->postCreateNewUserDefinedTemplatePartitionScheme($userTemplateName, $partitionSchemeName, $priority);
+        $ovh_api->me->installationTemplate->partitionScheme->create($userTemplateName, $partitionSchemeName, $priority);
 
         $this->info("Partition scheme $partitionSchemeName for $userTemplateName created successfully!");
 

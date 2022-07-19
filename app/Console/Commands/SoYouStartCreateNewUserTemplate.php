@@ -52,7 +52,7 @@ class SoYouStartCreateNewUserTemplate extends Command
         $dedicatedTemplateName = $this->argument('dedicated_template_name');
 
         try {
-            $ovh_api->postCreateNewUserDefinedTemplate($userTemplateName, $dedicatedTemplateName);
+            $ovh_api->me->installationTemplate->create($userTemplateName, 'en', $dedicatedTemplateName);
         } catch (GuzzleException $e) {
             $message = $e->getMessage();
             print("Unable to create $userTemplateName template due to $message");

@@ -42,7 +42,7 @@ class SoYouStartUpdateUserTemplatePartitionSchemePriority extends Command
         $partitionSchemeName = $this->argument('partition_scheme_name');
         $newPriority = $this->argument('new_priority');
 
-        $ovh_api->putUpdateUserDefinedTemplatePartitionScheme($userTemplateName, $partitionSchemeName, null, $newPriority);
+        $ovh_api->me->installationTemplate->partitionScheme->update($userTemplateName, $partitionSchemeName, null, $newPriority);
         $this->info("Successfully updated $partitionSchemeName's priority for $userTemplateName");
         return 0;
     }

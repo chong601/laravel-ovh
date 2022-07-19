@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\SoYouStart\SoYouStartIp;
 use App\Services\SoYouStart\SoYouStartService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\App;
@@ -91,19 +92,12 @@ class SoYouStartUpdateUserTemplate extends Command
             $templateData['templateName'] = $updatedTemplateName;
         }
 
-        $this->info(json_encode([$templateName, $customHostname, $postInstallationScriptLink, $postInstallationScriptReturn, $sshKeyName, $useDistributrionKernel, $defaultLanguage, $updatedTemplateName]));
-
-        $this->info(json_encode($templateData));
-
         if (empty($templateData)) {
             $this->error('Nothing to update!');
             return 1;
         }
 
-        $ovh_api->putUpdateUserDefinedTemplate(
-            $templateName,
-            $templateData
-        );
+        $ovh_api->me->installationTemplate->update($templateName, $templateData);
 
         return 0;
     }

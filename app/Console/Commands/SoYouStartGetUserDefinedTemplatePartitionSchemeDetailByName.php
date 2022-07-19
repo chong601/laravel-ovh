@@ -44,7 +44,7 @@ class SoYouStartGetUserDefinedTemplatePartitionSchemeDetailByName extends Comman
         $partitionSchemeName = $this->argument('partition_scheme_name');
 
         try {
-            $result = $ovh_api->getUserDefinedInstallationTemplatePartitionSchemeDetail($userTemplateName, $partitionSchemeName);
+            $result = $ovh_api->me->installationTemplate->partitionScheme->get($userTemplateName, $partitionSchemeName);
         } catch (Exception $e) {
             $this->error(sprintf('Failed to get partition scheme details with error %s', $e->getMessage()));
             return 1;

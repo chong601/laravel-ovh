@@ -44,7 +44,7 @@ class SoYouStartDeleteUserDefinedTemplatePartitionScheme extends Command
         $partitionSchemeName = $this->argument('partition_scheme_name');
 
         try {
-            $ovh_api->deleteUserDefinedTemplatePartitionScheme($userTemplateName, $partitionSchemeName);
+            $ovh_api->me->installationTemplate->partitionScheme->delete($userTemplateName, $partitionSchemeName);
         } catch (Exception $e) {
             $this->error(sprintf('Unable to delete %s partition scheme from %s user installation template due to %s', $userTemplateName, $partitionSchemeName, $e->getMessage()));
         }

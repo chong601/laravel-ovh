@@ -41,7 +41,7 @@ class SoYouStartDeleteUserDefinedTemplate extends Command
         $userTemplateName = $this->argument('user_template_name');
 
         try {
-            $ovh_api->deleteUserDefinedTemplate($userTemplateName);
+            $ovh_api->me->installationTemplate->delete($userTemplateName);
             $this->info(sprintf('User template %s deleted successfully!', $userTemplateName));
         } catch (Exception $e) {
             $this->error(sprintf('Failed deleting user template %s due to %s', $userTemplateName, $e->getMessage()));

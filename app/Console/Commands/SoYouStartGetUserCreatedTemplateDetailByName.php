@@ -39,15 +39,15 @@ class SoYouStartGetUserCreatedTemplateDetailByName extends Command
 
         $userTemplateName = $this->argument('user_template_name');
 
-        $userTemplateDetails = $ovh_api->getUserDefinedInstallationTemplateDetails($userTemplateName);
-        $userTemplatePartitionSchemes = $ovh_api->getUserDefinedInstallationTemplatePartitionSchemes($userTemplateName);
+        $userTemplateDetails = $ovh_api->me->installationTemplate->get($userTemplateName);
+        $userTemplatePartitionSchemes = $ovh_api->me->installationTemplate->partitionScheme->all($userTemplateName);
         foreach ($userTemplatePartitionSchemes as $userTemplatePartitionScheme) {
             // Get partition details
-            $userTemplatePartitionMountPoints = $ovh_api->getUserDefinedInstallationTemplatePartitionMountpoints($userTemplateName, $userTemplatePartitionScheme);
+            $userTemplatePartitionMountPoints = $ovh_api->me->installationTemplate->partitionScheme->partition->all($userTemplateName, $userTemplatePartitionScheme);
             $userTemplatePartitionMountPointsList = [];
             // Get mount point details
             foreach ($userTemplatePartitionMountPoints as $userTemplatePartitionMountPoint) {
-                $userTemplatePartitionMountPointDetail = $ovh_api->getUserDefinedInstallationTemplatePartitionMountpointDetails($userTemplateName, $userTemplatePartitionScheme, $userTemplatePartitionMountPoint);
+                $userTemplatePartitionMountPointDetail = $ovh_api->me->installationTemplate->partitionScheme->partition->get($userTemplateName, $userTemplatePartitionScheme, $userTemplatePartitionMountPoint);
                 $userTemplatePartitionMountPointsList[] = $userTemplatePartitionMountPointDetail;
             }
             $userTemplatePartitionSchemesList[$userTemplatePartitionScheme] = $userTemplatePartitionMountPointsList;

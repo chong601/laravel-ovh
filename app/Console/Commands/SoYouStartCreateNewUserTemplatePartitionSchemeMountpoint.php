@@ -70,17 +70,17 @@ class SoYouStartCreateNewUserTemplatePartitionSchemeMountpoint extends Command
         }
 
         // Check user template exists
-        if (!in_array($userTemplateName, $ovh_api->getAllUserDefinedInstallationTemplates())) {
+        if (!in_array($userTemplateName, $ovh_api->me->installationTemplate->all())) {
             $this->error(sprintf('User template "%s" not found!', $userTemplateName));
             return 1;
         }
 
         // Check partition scheme exists
-        if (!in_array($partitionSchemeName, $ovh_api->getUserDefinedInstallationTemplatePartitionSchemes($userTemplateName))) {
+        if (!in_array($partitionSchemeName, $ovh_api->me->installationTemplate->partitionScheme->all($userTemplateName))) {
             $this->error(sprintf('Partition scheme "%s" not found!', $partitionSchemeName));
             return 1;
         }
-        $mountPoints = $ovh_api->getUserDefinedInstallationTemplatePartitionMountpoints($userTemplateName, $partitionSchemeName);
+        $mountPoints = $ovh_api->me->installationTemplate->partitionScheme->partition->all($userTemplateName, $partitionSchemeName);
         // Check if mount point exists
         if (in_array($mountpoint, $mountPoints)) {
             $this->error(sprintf('Mount point "%s" already exists!', $mountpoint));
@@ -89,7 +89,7 @@ class SoYouStartCreateNewUserTemplatePartitionSchemeMountpoint extends Command
 
         // Get supported filesystems
         // We would like to lock out filesystems that is not supported by this template
-        $supportedFilesystems = $ovh_api->getUserDefinedInstallationTemplateDetails($userTemplateName);
+        $supportedFilesystems = $ovh_api->me->installationTemplate->get($userTemplateName);
 
         if (!in_array($filesystem, $supportedFilesystems['filesystems'])) {
             $this->error(sprintf('Filesystem "%s" is not valid! Accepted filesystems: %s', $filesystem, implode(', ', $supportedFilesystems['filesystems'])));
@@ -120,7 +120,7 @@ class SoYouStartCreateNewUserTemplatePartitionSchemeMountpoint extends Command
         ], true));
 
         try {
-            $ovh_api->postCreateNewUserDefinedTemplatePartitionSchemeMountpoint(
+            $ovh_api->me->installationTemplate->partitionScheme->partition->create(
                 $userTemplateName,
                 $partitionSchemeName,
                 $filesystem,

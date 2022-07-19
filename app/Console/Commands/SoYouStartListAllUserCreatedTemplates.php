@@ -39,7 +39,7 @@ class SoYouStartListAllUserCreatedTemplates extends Command
 
         // Get all supported OS templates for the server
         // This also includes personal templates
-        $userTemplates = $ovh_api->getAllUserDefinedInstallationTemplates();
+        $userTemplates = $ovh_api->me->installationTemplate->all();
 
         print(json_encode($userTemplates, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 

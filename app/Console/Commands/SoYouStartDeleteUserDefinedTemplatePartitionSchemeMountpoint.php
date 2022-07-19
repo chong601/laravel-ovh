@@ -46,7 +46,7 @@ class SoYouStartDeleteUserDefinedTemplatePartitionSchemeMountpoint extends Comma
         $mountpoint = $this->argument('mountpoint');
 
         try {
-            $ovh_api->deleteUserDefinedTemplatePartitionSchemeMountpoint($userTemplateName, $partitionSchemeName, $mountpoint);
+            $ovh_api->me->installationTemplate->partitionScheme->partition->delete($userTemplateName, $partitionSchemeName, $mountpoint);
         } catch (Exception $e) {
             $this->error(sprintf('Unable to delete %s partition scheme from %s user installation template due to %s', $userTemplateName, $partitionSchemeName, $e->getMessage()));
         }
