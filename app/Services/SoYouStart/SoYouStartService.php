@@ -1,6 +1,8 @@
 <?php
 namespace App\Services\SoYouStart;
 
+use App\Services\SoYouStart\Me\SoYouStartMe;
+use Exception;
 use Ovh\Api;
 use PhpIP\IPv4Block;
 use PhpIP\IPv6Block;
@@ -15,18 +17,29 @@ class SoYouStartService {
     /** @var \Ovh\Api */
     protected $ovh_api;
 
-    protected $dedicatedServer;
-
-    protected $dedicatedInstallationTemplate;
-
-    protected $ip;
-
-    protected $me;
+    private static $mapStringToClass = [
+        'auth' => Auth::class,
+        'dedicatedInstallationTemplate' => DedicatedInstallationTemplate::class,
+        'dedicatedServer' => DedicatedServer::class,
+        'ip' => Ip::class,
+        'license' => License::class,
+        'me' => SoYouStartMe::class,
+        'newAccount' => NewAccount::class,
+        'order' => Order::class,
+        'price' => Price::class,
+        'support' => Support::class,
+        'veeamCloudConnect' => VeeamCloudConnect::class,
+    ];
 
     public function __construct(string $application_key, string $application_secret, string $endpoint, ?string $consumer_key)
     {
         $this->ovh_api = new Api($application_key, $application_secret, $endpoint, $consumer_key);
+    }
 
+    //Enable Stripe-like attribute accessing to a specific feature to query
+    public function __get($name)
+    {
+        return array_key_exists($name, self::$mapStringToClass) ? new self::$mapStringToClass[$name]($this->ovh_api) : null;
     }
 
     /**
