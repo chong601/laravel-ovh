@@ -3,6 +3,46 @@ namespace App\Services\SoYouStart\Me;
 
 use Ovh\Api;
 
+/**
+ * SoYouStart API related to the user
+ *
+ * @property AccessRestriction $accessRestriction
+ * @property Agreements $agreements
+ * @property Api $api
+ * @property AutoRenew $autorenew
+ * @property AvailableAutomaticPaymentMeans
+ * @property Bill $bill
+ * @property Certificate $certificate
+ * @property ChangeEmail $changeEmail
+ * @property ChangePassword $changePassword
+ * @property Consent $consent
+ * @property Contact $contact
+ * @property CreditBalance $creditBalance
+ * @property CreditCode $creditCode
+ * @property DebtAccount $debtAccount
+ * @property Deposit $deposit
+ * @property Document $document
+ * @property FidelityAccount $fidelityAccount
+ * @property Geolocation $geolocation
+ * @property Identity $identity
+ * @property InstallationTemplate $installationTemplate
+ * @property IpOrganisation $iporganisation
+ * @property IpxeScript $ipxeScript
+ * @property MailingList $mailingList
+ * @property Notification $notification
+ * @property Order $order
+ * @property OvhAccount $ovhAccount
+ * @property PasswordRecover $passwordRecover
+ * @property Payment $payment
+ * @property PaymentMean $paymentmean
+ * @property Refund $refund
+ * @property Sla $sla
+ * @property SshKey $sshKey
+ * @property SubAccount $subaccount
+ * @property Task $task
+ * @property Voucher $voucher
+ * @property Withdrawal $withdrawal
+ */
 class SoYouStartMe
 {
     protected $ovh_api;
@@ -18,7 +58,7 @@ class SoYouStartMe
         'changeEmail' => ChangeEmail::class,
         'changePassword' => ChangePassword::class,
         'consent' => Consent::class,
-        'contact' => Contract::class,
+        'contact' => Contact::class,
         'creditBalance' => CreditBalance::class,
         'creditCode' => CreditCode::class,
         'debtAccount' => DebtAccount::class,
