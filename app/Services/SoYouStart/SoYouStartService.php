@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\SoYouStart;
 
+use App\Services\SoYouStart\Ip\SoYouStartIp;
 use App\Services\SoYouStart\Me\SoYouStartMe;
 use Ovh\Api;
 use PhpIP\IPv4Block;
@@ -11,12 +12,12 @@ use PhpIP\IPv6Block;
  *
  * It is recommended to extend the functionality outside of this service for specific use cases to keep the implementation clean.
  *
- * @property Auth $auth
+ * @property Auth $auth SoYouStart authentication
  * @property DedicatedInstallationTemplate $dedicatedInstallationTemplate
  * @property DedicatedServer $dedicatedServer
- * @property Ip $ip
+ * @property SoYouStartIp $ip SoYouStart IP management
  * @property Licnese $license
- * @property SoYouStartMe $me
+ * @property SoYouStartMe $me SoYouStart user-related actions
  * @property NewAccount $newAccount
  * @property Order $order
  * @property Price $price
@@ -32,7 +33,7 @@ class SoYouStartService {
         'auth' => Auth::class,
         'dedicatedInstallationTemplate' => DedicatedInstallationTemplate::class,
         'dedicatedServer' => DedicatedServer::class,
-        'ip' => Ip::class,
+        'ip' => SoYouStartIp::class,
         'license' => License::class,
         'me' => SoYouStartMe::class,
         'newAccount' => NewAccount::class,
