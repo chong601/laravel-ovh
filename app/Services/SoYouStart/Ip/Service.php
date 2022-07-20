@@ -3,7 +3,7 @@ namespace App\Services\SoYouStart\Ip;
 
 use Ovh\Api;
 
-class Servivce
+class Service
 {
     public function __construct(Api $ovh_api)
     {

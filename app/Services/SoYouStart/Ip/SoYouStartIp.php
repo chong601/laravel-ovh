@@ -33,6 +33,7 @@ class SoYouStartIp
         'phishing' => Phishing::class,
         'reverse' => Reverse::class,
         'ripe' => Ripe::class,
+        'service' => Service::class,
         'spam' => Spam::class,
         'task' => Task::class
     ];
