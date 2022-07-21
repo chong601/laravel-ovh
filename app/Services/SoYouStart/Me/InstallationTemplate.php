@@ -33,7 +33,7 @@ class InstallationTemplate {
      * @return array An array of installation template names
      */
     public function all() {
-        return $this->ovh_api->get('/dedicated/installationTemplate');
+        return $this->ovh_api->get('/me/installationTemplate');
     }
 
     /**
@@ -43,7 +43,7 @@ class InstallationTemplate {
      * @return array Installation tempate details
      */
     public function get($templateName) {
-        return $this->ovh_api->get(sprintf('/dedicated/installationTemplate/%s', $templateName));
+        return $this->ovh_api->get(sprintf('/me/installationTemplate/%s', $templateName));
     }
 
     /**
