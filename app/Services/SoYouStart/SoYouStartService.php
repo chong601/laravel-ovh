@@ -13,10 +13,10 @@ use PhpIP\IPv6Block;
  * It is recommended to extend the functionality outside of this service for specific use cases to keep the implementation clean.
  *
  * @property Auth $auth SoYouStart authentication
- * @property DedicatedInstallationTemplate $dedicatedInstallationTemplate
+ * @property DedicatedInstallationTemplate $dedicatedInstallationTemplate Dedicated server management
  * @property DedicatedServer $dedicatedServer
  * @property SoYouStartIp $ip SoYouStart IP management
- * @property Licnese $license
+ * @property License $license
  * @property SoYouStartMe $me SoYouStart user-related actions
  * @property NewAccount $newAccount
  * @property Order $order
