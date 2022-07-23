@@ -3,6 +3,11 @@ namespace App\Services\SoYouStart\DedicatedServer;
 
 use Ovh\Api;
 
+/**
+ * SoYouStart virtual MAC management
+ *
+ * @property VirtualAddress $virtualAddress Virtual address management
+ */
 class VirtualMac
 {
     const VMAC_TYPE_ENUM = ["ovh","vmware"];
