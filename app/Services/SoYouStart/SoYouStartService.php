@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\SoYouStart;
 
+use App\Services\SoYouStart\DedicatedServer\SoYouStartDedicatedServer;
 use App\Services\SoYouStart\Ip\SoYouStartIp;
 use App\Services\SoYouStart\Me\SoYouStartMe;
 use Ovh\Api;
@@ -14,7 +15,7 @@ use PhpIP\IPv6Block;
  *
  * @property Auth $auth SoYouStart authentication
  * @property DedicatedInstallationTemplate $dedicatedInstallationTemplate Dedicated server management
- * @property DedicatedServer $dedicatedServer
+ * @property SoYouStartDedicatedServer $dedicatedServer
  * @property SoYouStartIp $ip SoYouStart IP management
  * @property License $license
  * @property SoYouStartMe $me SoYouStart user-related actions
@@ -32,7 +33,7 @@ class SoYouStartService {
     private static $mapStringToClass = [
         'auth' => Auth::class,
         'dedicatedInstallationTemplate' => DedicatedInstallationTemplate::class,
-        'dedicatedServer' => DedicatedServer::class,
+        'dedicatedServer' => SoYouStartDedicatedServer::class,
         'ip' => SoYouStartIp::class,
         'license' => License::class,
         'me' => SoYouStartMe::class,
