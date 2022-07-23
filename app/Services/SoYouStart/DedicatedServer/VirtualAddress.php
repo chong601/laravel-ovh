@@ -17,7 +17,7 @@ class VirtualAddress
     }
 
     public function create($serviceName, $macAddress, $ipAddress, $virtualMachineName) {
-        return $this->ovh_api->post(sprintf('/dedicated/server/%s/virtualMac/%s/virtualAddress', $serviceName), ['macAddress' => $macAddress, 'ipAddress' => $ipAddress, 'virtualMachineName' => $virtualMachineName]);
+        return $this->ovh_api->post(sprintf('/dedicated/server/%s/virtualMac/%s/virtualAddress', $serviceName, $macAddress), ['ipAddress' => $ipAddress, 'virtualMachineName' => $virtualMachineName]);
     }
 
     public function delete($serviceName, $macAddress, $ipAddress) {
