@@ -51,7 +51,7 @@ class Install
         return $this->ovh_api->get(sprintf('/dedicated/server/%s/install/status', $serviceName));
     }
 
-    public function templateCapabilitues($serviceName, $templateName) {
+    public function templateCapabilities($serviceName, $templateName) {
         return $this->ovh_api->get(sprintf('/dedicated/server/%s/install/templateCapabilities', $serviceName), ['templateName' => $templateName]);
     }
 }
