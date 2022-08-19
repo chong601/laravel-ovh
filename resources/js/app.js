@@ -19,7 +19,9 @@ window.Vue = require('vue').default;
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('list-all-ips-by-server', require('./components/SoYouStart/ListAllIpsByServer.vue').default);
+Vue.component('reboot-server-button', require('./components/SoYouStart/RebootServerButton.vue').default);
+Vue.component('dedicated-server-details', require('./components/SoYouStart/DedicatedServerDetails.vue').default)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
