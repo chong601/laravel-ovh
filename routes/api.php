@@ -5,7 +5,6 @@ use App\Http\Controllers\WebApi\Dedicated\Server\VirtualMac;
 use App\Http\Controllers\WebApi\Dedicated\Server\VirtualMac\VirtualAddress;
 use App\Http\Controllers\WebApi\Ip;
 use App\Http\Controllers\WebApi\Ip\Reverse;
-use App\Http\Controllers\WebApi\Ip\VirtualMac;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -56,7 +55,3 @@ Route::prefix('/dedicated')->name('dedicated.')->group(function () {
         });
     });
 });
-
-Route::get('/ip/reverseDetail/{serviceName}', [Reverse::class, 'getIpReverse']);
-Route::get('/ip/virtualMac/{serviceName}', [VirtualMac::class, 'getVirtualMac']);
-
