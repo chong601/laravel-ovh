@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\WebApi\Dedicated\Server as DedicatedServer;
+use App\Http\Controllers\WebApi\Dedicated\Server\VirtualMac;
+use App\Http\Controllers\WebApi\Dedicated\Server\VirtualMac\VirtualAddress;
+use App\Http\Controllers\WebApi\Ip;
 use App\Http\Controllers\WebApi\Ip\Reverse;
 use App\Http\Controllers\WebApi\Ip\VirtualMac;
 use Illuminate\Http\Request;
@@ -33,6 +37,26 @@ Route::prefix('/ip')->name('ip.')->group(function () {
         });
     });
 });
+
+Route::prefix('/dedicated')->name('dedicated.')->group(function () {
+    Route::prefix('/server')->name('server.')->group(function() {
+        Route::get('/', [DedicatedServer::class, 'all'])->name('all');
+        Route::prefix('/{serviceName}')->group(function () {
+            Route::get('/', [DedicatedServer::class, 'get'])->name('get');
+            Route::prefix('/virtualMac')->name('virtualMac.')->group(function () {
+                Route::get('/', [VirtualMac::class, 'all'])->name('all');
+                Route::prefix('/{macAddress}')->group(function () {
+                    Route::get('/', [VirtualMac::class, 'get'])->name('get');
+                    Route::prefix('/virtualAddress')->name('virtualAddress.')->group(function () {
+                        Route::get('/', [VirtualAddress::class, 'all'])->name('all');
+                        Route::get('/{ipAddress}', [VirtualAddress::class, 'get'])->name('get');
+                    });
+                });
+            });
+        });
+    });
+});
+
 Route::get('/ip/reverseDetail/{serviceName}', [Reverse::class, 'getIpReverse']);
 Route::get('/ip/virtualMac/{serviceName}', [VirtualMac::class, 'getVirtualMac']);
 
