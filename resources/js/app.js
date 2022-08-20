@@ -22,6 +22,7 @@ window.Vue = require('vue').default;
 Vue.component('list-all-ips-by-server', require('./components/SoYouStart/ListAllIpsByServer.vue').default);
 Vue.component('reboot-server-button', require('./components/SoYouStart/RebootServerButton.vue').default);
 Vue.component('dedicated-server-details', require('./components/SoYouStart/DedicatedServerDetails.vue').default)
+Vue.component('ip-reverse', require('./components/SoYouStart/IpReverse.vue').default)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
