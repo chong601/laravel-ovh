@@ -4,10 +4,11 @@ namespace App\Services\PhpOvhNG;
 use App\Services\PhpOvhNG\Exceptions\InvalidParameterException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Promise\Promise;
+use GuzzleHttp\Promise\Utils;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
+use Throwable;
 
 class PhpOvhNG
 {
@@ -189,7 +190,7 @@ class PhpOvhNG
      * @throws GuzzleException
      * @throws \JsonException
      */
-    protected function rawCall($method, $path, $content = null, $is_authenticated = true, $headers = null): ResponseInterface
+    protected function rawCall($method, $path, $content = null, $is_authenticated = true, $headers = null, bool $async = false)
     {
         if ($is_authenticated) {
             if (!isset($this->application_key)) {
@@ -261,22 +262,24 @@ class PhpOvhNG
                 $headers['X-Ovh-Signature'] = $signature;
             }
         }
-
-        /** @var Response $response */
-        return $this->http_client->send($request, ['headers' => $headers]);
+        if ($async) {
+            return $this->http_client->sendAsync($request, ['headers' => $headers]);
+        } else {
+            /** @var Response $response */
+            return $this->http_client->send($request, ['headers' => $headers]);
+        }
     }
 
     /**
-     * Performs asynchronous callson a built-in list of responses
-     * If an array of promises are included
+     * Perform asynchronous requests with the provided array of promises
+     *
+     * @param PhpOvhAsyncRequest $promises The generated async object from PhpOvhAsyncRequest class
+     * @return array
+     * @throws Throwable Any form of exception during the processing of the promises
      */
-    protected function rawCallAsync(array $promises)
+    public function callAsync(PhpOvhAsyncRequest $promises): array
     {
-        return true;
-    }
-
-    public function callAsync(array $promises) {
-        return $this->rawCallAsync($promises);
+        return Utils::settle($promises->toArray())->wait();
     }
 
     /**
@@ -302,7 +305,7 @@ class PhpOvhNG
      * @throws ClientException if http request is an error
      * @throws \JsonException
      */
-    public function get($path, $content = null, $headers = null, $is_authenticated = true)
+    public function get($path, $content = null, $headers = null, $is_authenticated = true, $async = false)
     {
         if (preg_match('/^\/[^\/]+\.json$/', $path)) {
             // Schema description must be access without authentication
@@ -311,9 +314,13 @@ class PhpOvhNG
             );
         }
 
-        return $this->decodeResponse(
-            $this->rawCall("GET", $path, $content, $is_authenticated, $headers)
-        );
+        if ($async) {
+            return $this->rawCall("GET", $path, $content, $is_authenticated, $headers, true);
+        } else {
+            return $this->decodeResponse(
+                $this->rawCall("GET", $path, $content, $is_authenticated, $headers)
+            );
+        }
     }
 
     /**
@@ -326,11 +333,15 @@ class PhpOvhNG
      *
      * @throws ClientException if http request is an error
      */
-    public function post($path, $content = null, $headers = null, $is_authenticated = true)
+    public function post($path, $content = null, $headers = null, $is_authenticated = true, $async = false)
     {
-        return $this->decodeResponse(
-            $this->rawCall("POST", $path, $content, $is_authenticated, $headers)
-        );
+        if ($async) {
+            return $this->rawCall("POST", $path, $content, $is_authenticated, $headers, true);
+        } else {
+            return $this->decodeResponse(
+                $this->rawCall("POST", $path, $content, $is_authenticated, $headers)
+            );
+        }
     }
 
     /**
@@ -343,11 +354,15 @@ class PhpOvhNG
      *
      * @throws ClientException if http request is an error
      */
-    public function put($path, $content, $headers = null, $is_authenticated = true)
+    public function put($path, $content, $headers = null, $is_authenticated = true, $async = false)
     {
-        return $this->decodeResponse(
-            $this->rawCall("PUT", $path, $content, $is_authenticated, $headers)
-        );
+        if ($async) {
+            return $this->rawCall("PUT", $path, $content, $is_authenticated, $headers, true);
+        } else {
+            return $this->decodeResponse(
+                $this->rawCall("PUT", $path, $content, $is_authenticated, $headers)
+            );
+        }
     }
 
     /**
@@ -361,11 +376,15 @@ class PhpOvhNG
      * @throws ClientException if http request is an error
      * @throws \JsonException
      */
-    public function delete(string $path, array $content = null, array $headers = null, bool $is_authenticated = true)
+    public function delete(string $path, array $content = null, array $headers = null, bool $is_authenticated = true, $async = false)
     {
-        return $this->decodeResponse(
-            $this->rawCall("DELETE", $path, $content, $is_authenticated, $headers)
-        );
+        if ($async) {
+            return $this->rawCall("DELETE", $path, $content, $is_authenticated, $headers, true);
+        } else {
+            return $this->decodeResponse(
+                $this->rawCall("DELETE", $path, $content, $is_authenticated, $headers)
+            );
+        }
     }
 
     /**
