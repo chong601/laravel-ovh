@@ -12,8 +12,9 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "ovh/ovh": "master",
-        "rlanvin/php-ip": "^3.0"
+        "ovh/ovh": "^3.1",
+        "rlanvin/php-ip": "^3.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -60,12 +61,6 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/chong601/php-ovh"
-        }
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }
