@@ -56,9 +56,14 @@ class TestAsyncDecodeCall extends Command
         $phase1Promises['ip'] = $ovh_api->get('/ip', null, null, true, true);
 
         $phase1Response = $ovh_api->callAsync($phase1Promises);
-        $this->info(json_encode($phase1Response['dedicated.server']));
+
         $dedicatedServer = $phase1Response['dedicated.server'];
         $ips = $phase1Response['ip'];
+
+        $ipGroup = ['free' => []];
+        foreach ($dedicatedServer as $serviceName) {
+            $ipGroup[$serviceName] = [];
+        }
 
         // Get all dedicated server IPs as well as list of available virtual MAC on per-server basis
         $phase2Promises = new PhpOvhAsyncRequest;
@@ -98,31 +103,29 @@ class TestAsyncDecodeCall extends Command
         $virtualMacArray = [];
         $virtualAddressArray = [];
         foreach ($dedicatedServer as $serviceName) {
-            foreach (array_keys($phase3Responses) as $responseKey)
-            {
+            foreach (array_keys($phase3Responses) as $responseKey) {
+                // Only process responses that start with dedicated server names
                 if (strpos($responseKey, $serviceName) === 0) {
+                    // If it ends with `.virtualAddress` query the virtual address
+                    //, Else it's an virtualMac query, store the virtual MAC details
                     if (strpos($responseKey, '.virtualAddress')) {
+                        // OVH returns a list of addresses for a MAC address
                         $virtualMacIps = $phase3Responses[$responseKey];
                         foreach ($virtualMacIps as $virtualMacIp) {
+                            // Skip virtual MAC IPs if it already exists in the promise entry
                             if (!$phase4Promises->offsetExists($virtualMacIp)) {
+                                // Only get the virtual MAC IP address
                                 $macAddress = str_replace('.virtualAddress', '', str_replace($serviceName . '.', '', $responseKey));
                                 $phase4Promises[$virtualMacIp] = $ovh_api->get('/dedicated/server/' . $serviceName . '/virtualMac/' . $macAddress . '/virtualAddress/' . urlencode($virtualMacIp), null, null, true, true);
                             }
                         }
                     } else {
+                        // Extract MAC address from the response key
                         $macAddress = str_replace($serviceName . '.', '', $responseKey);
                         $virtualMacArray[$macAddress] = $phase3Responses[$responseKey];
                     }
                 }
             }
-//            foreach ($virtualMacs as $virtualMac) {
-//                $virtualAddresses = $phase3Responses[$serviceName . '.' . $virtualMac . '.virtualAddress'];
-//                foreach ($virtualAddresses as $virtualAddress) {
-//                    if (!$phase4Promises->offsetExists($serviceName. '.' . $virtualMac . '.virtualAddress' . $virtualAddress, $virtualAddresses)) {
-//                        $phase4Promises[$serviceName. '.' . $virtualMac . '.virtualAddress' . $virtualAddress . '.' . $virtualAddresses] = $ovh_api->get('/dedicated/server/' . $serviceName . '/virtualMac', null, null, true, true);
-//                    }
-//                }
-//            }
         }
         $phase4Responses = $ovh_api->callAsync($phase4Promises);
         $this->info(json_encode($phase4Responses));
