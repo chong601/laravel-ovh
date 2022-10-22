@@ -1,3 +1,5 @@
+# This project is no longer maintained.
+
 # laravel-ovh
 Hello darkness, my old friend.
 
